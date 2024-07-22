@@ -7,6 +7,8 @@ const app: Application = express()
 app.use(express.json())
 
 app.get('/api', (req: Request, res: Response) => {
+    // console.log(req.query.name);
+    
     res.status(200).send({
         message: 'Welcome to my api',
         status: "ok"

@@ -1,1 +1,20 @@
-[{"id":1,"name":"Andi","age":20},{"id":2,"name":"Budi","age":21},{"id":3,"name":"Cahya","age":22},{"id":4,"name":"Dodi","age":23},{"id":5,"name":"Endang","age":24}]
+[
+  {
+    "id": 1,
+    "username": "Andi",
+    "email": "andi@gmail.com",
+    "password": "Asd1234"
+  },
+  {
+    "id": 2,
+    "username": "Dedi",
+    "email": "dedi@gmail.com",
+    "password": "Asd1234"
+  },
+  {
+    "id": 3,
+    "username": "John",
+    "email": "john@gmail.com",
+    "password": "Asd1234"
+  }
+]
