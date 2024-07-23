@@ -29,3 +29,21 @@ export const checkBody = (req: Request, res: Response, next: NextFunction) => {
         })
     }
 }
+
+export const checkEdit = (req: Request, res: Response, next: NextFunction) => {
+    const opt = ["title", "nominal", "type", "category", "date"]
+    let isValid = true
+
+    for (let key in req.body) {
+        isValid = isValid && opt.includes(key)
+    }
+
+    if (isValid) {
+        next() 
+    } else {
+        return res.status(400).send({
+            status: 'error',
+            msg: 'Invalid input 🚫'
+        })
+    }
+}
