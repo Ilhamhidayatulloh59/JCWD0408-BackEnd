@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express'
 import { expenseRouter } from './routers/expense.router'
+import { expenseRouterV2 } from './routers/expense-v2.router'
 
 const router = Router()
 
@@ -12,5 +13,6 @@ router.get('/', (req: Request, res: Response) => {
 })
 
 router.use('/expenses', expenseRouter)
+router.use('/v2/expenses', expenseRouterV2)
 
 export default router
