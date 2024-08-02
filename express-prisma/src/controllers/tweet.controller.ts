@@ -6,7 +6,7 @@ export const createTweet = async (req: Request, res: Response) => {
         await prisma.tweet.create({
             data: {
                 content: req.body.content,
-                userId: +req.params.userId
+                userId: req.user?.id!
             }
         })
         res.status(200).send({

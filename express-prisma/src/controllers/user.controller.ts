@@ -5,8 +5,8 @@ export const getUsers = async (req: Request, res: Response) => {
     try {
         interface FiterQuery {
             OR?: [
-                { username: { contains: string }}, 
-                { email: { contains: string }} 
+                { username: { contains: string } },
+                { email: { contains: string } }
             ];
         }
         const { search, page } = req.query
@@ -30,21 +30,6 @@ export const getUsers = async (req: Request, res: Response) => {
             status: 'ok',
             total: users.length,
             users
-        })
-    } catch (err) {
-        res.status(400).send({
-            status: 'error',
-            msg: err
-        })
-    }
-}
-
-export const createUser = async (req: Request, res: Response) => {
-    try {
-        await prisma.user.create({ data: req.body })
-        res.status(200).send({
-            status: 'ok',
-            msg: 'User created ✅'
         })
     } catch (err) {
         res.status(400).send({
@@ -91,7 +76,7 @@ export const editUser = async (req: Request, res: Response) => {
 
 export const deleteUser = async (req: Request, res: Response) => {
     try {
-        await prisma.user.delete({ where: {id: +req.params.id} })
+        await prisma.user.delete({ where: { id: +req.params.id } })
         res.status(200).send({
             status: 'ok',
             msg: 'User deleted ✅'
@@ -104,26 +89,3 @@ export const deleteUser = async (req: Request, res: Response) => {
     }
 }
 
-export const loginUser = async (req: Request, res: Response) => {
-    try {
-        const user = await prisma.user.findUnique({
-            where: { email: req.body.email }
-        })
-        
-        if (!user) throw "User not found"
-        if (!user.isVerify) throw "User not verify"
-        if (user.password !== req.body.password) throw "Incorrect Password"
-
-        res.status(200).send({
-            status: 'ok',
-            msg: 'Login success',
-            user
-        })
-
-    } catch (err) {
-        res.status(400).send({
-            status: 'ok',
-            msg: err
-        })
-    }
-}
