@@ -8,6 +8,6 @@ export interface IPayload {
 const key = process.env.SECRET_KEY || ''
 
 export const createToken = (payload: IPayload) => {
-    const token = sign(payload, key, { expiresIn: '5m' })
+    const token = sign(payload, key, { expiresIn: '1d' })
     return token
 }

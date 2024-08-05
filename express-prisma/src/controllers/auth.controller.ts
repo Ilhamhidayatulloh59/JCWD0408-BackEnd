@@ -47,8 +47,26 @@ export const loginUser = async (req: Request, res: Response) => {
         if (!user.isVerify) throw "User not verify"
 
         const isValidPass = await compare(req.body.password, user.password)
-        if (!isValidPass) throw "Incorrect password!"
 
+        if (!isValidPass) {
+            const userUpdate = await prisma.user.update({
+                where: { id: user.id },
+                data: { login_attempt: { increment: 1 } }
+            })
+            if (userUpdate.login_attempt == 3) {
+                await prisma.user.update({
+                    where: { id: user.id },
+                    data: { isVerify: false, login_attempt: 0 }
+                })
+                throw 'Your account has been suspended!'
+            }
+            throw `Incorrect password!, ${3 - userUpdate.login_attempt} more times`
+        }
+
+        await prisma.user.update({ 
+            where: {id: user.id}, 
+            data: { login_attempt: 0 } 
+        })
         const token = createToken({ id: user.id, role: user.role })
 
         res.status(200).send({

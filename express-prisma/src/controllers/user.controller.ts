@@ -89,3 +89,24 @@ export const deleteUser = async (req: Request, res: Response) => {
     }
 }
 
+export const getActiveUser = async (req: Request, res: Response) => {
+    try {
+        const users = await prisma.user.findMany({
+            where: {
+                isVerify: true,
+                id: { not: req.user?.id }
+            },
+            take: 3
+        })
+        res.status(200).send({
+            msg: 'ok',
+            users
+        })
+    } catch (err) {
+        res.status(400).send({
+            status: 'error',
+            msg: err
+        })
+    }
+}
+
