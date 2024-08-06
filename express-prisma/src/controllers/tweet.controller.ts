@@ -1,11 +1,20 @@
 import { Request, Response } from "express";
 import prisma from "../prisma";
+import { responseError } from "../helpers/responseError";
+
+const base_url = process.env.BASE_URL || "http://localhost:2000/api"
 
 export const createTweet = async (req: Request, res: Response) => {
     try {
+        let media = null
+        if (req.file) {
+            media = `${base_url}/public/tweet/${req.file?.filename}`
+        }
+        
         await prisma.tweet.create({
             data: {
                 content: req.body.content,
+                media: media,
                 userId: req.user?.id!
             }
         })
@@ -14,10 +23,7 @@ export const createTweet = async (req: Request, res: Response) => {
             msg: 'Tweet created ✅'
         })
     } catch (err) {
-        res.status(400).send({
-            status: 'error',
-            msg: err
-        })
+        responseError(res, err)
     }
 }
 
@@ -59,10 +65,7 @@ export const getTweet = async (req: Request, res: Response) => {
             tweets: data
         })
     } catch (err) {
-        res.status(400).send({
-            status: 'error',
-            msg: err
-        })
+        responseError(res, err)
     }
 }
 
