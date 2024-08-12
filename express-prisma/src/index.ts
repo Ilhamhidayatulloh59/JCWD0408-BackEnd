@@ -16,3 +16,5 @@ app.use('/api', router)
 app.listen(PORT, () => {
     console.log(`[Server] => http://localhost:${PORT}/api`)
 })
+
+export default app;

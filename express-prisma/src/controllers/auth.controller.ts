@@ -32,7 +32,8 @@ export const createUser = async (req: Request, res: Response) => {
         const compiledTemplate = handlebars.compile(templateSource)
         const html = compiledTemplate({
             username: req.body.username,
-            link: `http://localhost:3000/verify/${token}`
+            // link: `http://localhost:3000/verify/${token}`
+            link: `https://twitter-fe-cyan.vercel.app/verify/${token}`
         })
 
         await transporter.sendMail({
