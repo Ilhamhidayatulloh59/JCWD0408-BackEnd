@@ -18,19 +18,26 @@ enum Role {
   admin
 }
 
+enum Status {
+  pending
+  paid
+  cancel
+}
+
 model User {
-  id            Int         @id @default(autoincrement())
-  username      String      @unique
-  email         String      @unique
+  id            Int           @id @default(autoincrement())
+  username      String        @unique
+  email         String        @unique
   password      String
   avatar        String?
-  isVerify      Boolean     @default(false)
-  role          Role        @default(user)
-  login_attempt Int         @default(0)
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  isVerify      Boolean       @default(false)
+  role          Role          @default(user)
+  login_attempt Int           @default(0)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
   Tweet         Tweet[]
   LikeTweet     LikeTweet[]
+  Transaction   Transaction[]
 }
 
 model Tweet {
@@ -52,4 +59,15 @@ model LikeTweet {
   tweet   Tweet @relation(fields: [tweetId], references: [id])
 
   @@id([userId, tweetId])
+}
+
+model Transaction {
+  id          String   @id @default(uuid())
+  price       Float
+  status      Status   @default(pending)
+  paymentLink String
+  userId      Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id])
 }

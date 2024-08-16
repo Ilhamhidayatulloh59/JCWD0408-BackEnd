@@ -3,7 +3,7 @@ import router from './router'
 import cors from 'cors'
 import path from 'path'
 
-const PORT: number = 2000
+const PORT: number = 8000
 
 const app: Application = express()
 
